@@ -1,5 +1,10 @@
 <template>
     <div>
+        <div class="title">排课结果：</div>
+
+        <CourseTable :courses="coursesDeliver" :CourseAdd="CourseAdd">
+        </CourseTable>
+
         <div class="title">
             可往后调整的课程有：
             <span v-if="ChangeableCourses.length > 0">{{ ChangeableCourses.join(', ') }}</span>
@@ -13,29 +18,28 @@
         <div class="button1">
             <button class="btn btn-primary" @click="ChangeCourseDown">将该课程向后调整一学期</button>
         </div>
-        <!-- <select class="form-select" aria-label="Default select example">
-            <option v-for="course in coursesUp" :key="course.value" :value="course.lable">{{ course.lable }}</option>
-        </select>
-        <div class="button1">
-            <button class="btn btn-primary" @click="ChangeCourseUp">将该课程向前调整一学期</button>
+
+        <div>
+            <div class="card">
+                <div class="card-body">
+                    <TopoGraph :courses="coursesDeliver" :courseAdd="CourseAdd">
+                    </TopoGraph>
+                </div>
+            </div>
         </div>
-        <div class="title">
-            排课输出输出结果：
-        </div> -->
-        <CourseTable :courses="coursesDeliver" :CourseAdd="CourseAdd">
-        </CourseTable>
     </div>
 </template>
 
 <script>
 import CourseTable from './CourseTable'
 import deepCopy from '../assets/Scripts/deepCopy.js'
-
+import TopoGraph from './TopoGraph.vue'
 
 export default {
     name: "ChangeableCoursesList",
     components: {
         CourseTable,
+        TopoGraph,
     },
     props: {
         ChangeableCourses: {
@@ -91,18 +95,19 @@ export default {
             if (this.selectedCourseDown == "暂无可向后调整的课程") alert("当前无课程可以向前调整或未选择要向前调整的课程！");
             else {
                 let fg = 0;
-                for (let i = 0; i < this.coursesDeliver.length; i++) {
-                    for (let j = 0; j < this.coursesDeliver[i].length; j++)
-                        if (this.selectedCourseDown == this.coursesDeliver[i][j]) {
+                let newcoursesDeliver = deepCopy(this.coursesDeliver);
+                for (let i = 0; i < newcoursesDeliver.length; i++) {
+                    for (let j = 0; j < newcoursesDeliver[i].length; j++)
+                        if (this.selectedCourseDown == newcoursesDeliver[i][j]) {
                             if (i + 1 < 8) {
-                                this.coursesDeliver[i].splice(j, 1);
-                                if (Array.isArray(this.coursesDeliver[i + 1]) && this.coursesDeliver[i + 1][0] == "暂无课程") {
-                                    this.coursesDeliver[i + 1] = [this.selectedCourseDown];
+                                newcoursesDeliver[i].splice(j, 1);
+                                if (Array.isArray(this.coursesDeliver[i + 1]) && newcoursesDeliver[i + 1][0] == "暂无课程") {
+                                    newcoursesDeliver[i + 1] = [this.selectedCourseDown];
                                 }
-                                else if (Array.isArray(this.coursesDeliver[i + 1])) {
-                                    this.coursesDeliver[i + 1].push(this.selectedCourseDown);
+                                else if (Array.isArray(newcoursesDeliver[i + 1])) {
+                                    newcoursesDeliver[i + 1].push(this.selectedCourseDown);
                                 }
-                                else this.coursesDeliver[i + 1] = [this.selectedCourseDown];
+                                else newcoursesDeliver[i + 1] = [this.selectedCourseDown];
                                 //alert("已将课程" + this.selectedCourseDown + "向后调整一学期！");
                             }
                             else alert("该课程已无法再向后调整！")
@@ -112,6 +117,7 @@ export default {
                         }
                     if (fg == 1) break;
                 }
+                this.coursesDeliver = newcoursesDeliver;
             }
         },
 

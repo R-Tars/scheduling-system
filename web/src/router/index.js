@@ -3,6 +3,8 @@ import DataInputView from '../views/DataInput/DataInputView'
 import HomePageView from '../views/HomePage/HomePageView'
 import ScheduledView from '../views/Scheduled/ScheduledView'
 import TestPageView from '../views/TestPage/TestPageView'
+
+
 const routes = [
   {
     path: "/",

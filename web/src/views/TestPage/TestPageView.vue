@@ -125,15 +125,7 @@
             </div>
         </div>
 
-        <div>
-            <div class="card">
-                <div class="card-body">
-                    课程拓扑图如下：
-                    <TopoGraph>
-                    </TopoGraph>
-                </div>
-            </div>
-        </div>
+
     </ContentField>
 </template>
 
@@ -146,7 +138,7 @@ import deepCopy from '../../assets/Scripts/deepCopy.js'
 import FindChangeableCourses from '../../assets/Scripts/FindChangeableCourses.js'
 import CourseAddTable from '../../components/CourseAddTable.vue'
 import ChangeableCoursesList from '../../components/ChangeableCoursesList.vue'
-import TopoGraph from '../../components/TopoGraph.vue'
+
 //import { reactive } from 'vue';
 import { ref } from 'vue';
 
@@ -166,7 +158,7 @@ export default {
         //CourseTable,
         CourseAddTable,
         ChangeableCoursesList,
-        TopoGraph,
+        //TopoGraph,
     },
     data() {
         return {
