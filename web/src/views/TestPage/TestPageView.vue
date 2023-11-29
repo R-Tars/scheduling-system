@@ -1,8 +1,8 @@
 <template>
     <ContentField>
-        <div>
+        <!-- <div>
             测试页面：
-        </div>
+        </div> -->
 
         <div>
             <div class="card">
@@ -102,25 +102,51 @@
             </div>
         </div>
 
-        <button type="button" class="btn btn-primary" @click="executeScript">运行排课程序</button>
+
 
         <div>
             <div class="card">
                 <div class="card-body">
-                    <!-- <div class="title">
-                        可往后调整的课程有：
-                        <span v-if="ChangeableCourses.length > 0">{{ ChangeableCourses.join(', ') }}</span>
-                        <span v-else>无</span>
-                        <br>
-                        请选择要调整的课程:
-                    </div> -->
+                    <div>排课选项设置：</div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-auto">
+                            <label for="hourRestrict" class="col-form-label">每学期是否有学时限制：</label>
+                        </div>
+                        <select class="form-select" aria-label="Default select example" style="width: 200px;"
+                            v-model="hourRestrict">
+                            <option selected>否</option>
+                            <option value="是">是</option>
+                        </select>
+
+                        <div class="col-auto">
+                            <label for="restrictedHour" class="col-form-label">请输入每学期学时上限（若选择是）：</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" id="restrictedHour" class="form-control" v-model="restrictedHour">
+                        </div>
+                    </div>
+
+                    <div class="row g-2 align-items-center">
+                        <div class="col-auto">
+                            <label for="creditRestrict" class="col-form-label">每学期是否有学分限制：</label>
+                        </div>
+                        <select class="form-select" aria-label="Default select example" style="width: 200px;"
+                            v-model="creditRestrict">
+                            <option selected>否</option>
+                            <option value="是">是</option>
+                        </select>
+
+                        <div class="col-auto">
+                            <label for="restrictedCredit" class="col-form-label">请输入每学期学分上限（若选择是）：</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" id="restrictedCredit" class="form-control" v-model="restrictedCredit">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" @click="executeScript">运行排课程序</button>
                     <ChangeableCoursesList :ChangeableCourses="ChangeableCourses" :courses="courses"
                         :CourseAdd="CourseInfo">
                     </ChangeableCoursesList>
-
-                    <!-- <CourseTable :courses="courses">
-                    </CourseTable> -->
-
                 </div>
             </div>
         </div>
@@ -144,7 +170,8 @@ import { ref } from 'vue';
 
 
 
-let course_result = [];
+//let course_result = [];
+let res = [];
 let CourseAdd = [];
 let ChangeableCourses_ = [];
 
@@ -173,7 +200,11 @@ export default {
             CourseCount: 0,
             selectedFile: null,
             fileContent: null,
-            ChangeableCourses_: []
+            ChangeableCourses_: [],
+            hourRestrict: '否',
+            restrictedHour: '',
+            creditRestrict: '否',
+            restrictedCredit: '',
         };
     },
 
@@ -205,17 +236,7 @@ export default {
         ]);
 
         const updateData = () => {//更新表格中显示的数据
-            courses.value = [
-                course_result[0],
-                course_result[1],
-                course_result[2],
-                course_result[3],
-                course_result[4],
-                course_result[5],
-                course_result[6],
-                course_result[7],
-                course_result[8],
-            ];
+            courses.value = res.courses_;
         }
         return {
             courses,
@@ -228,22 +249,32 @@ export default {
     },
 
     methods: {
-        executeScript() {
+        executeScript() {//运行排课程序
+            if (this.hourRestrict == '是' && this.restrictedHour == '') {
+                alert("请输入每学期学时上限！");
+                return;
+            }
+            if (this.creditRestrict == '是' && this.restrictedCredit == '') {
+                alert("请输入每学期分上限！");
+                return;
+            }
             let CourseAddCopy = deepCopy(CourseAdd);
             ChangeableCourses_ = FindChangeableCourses(CourseAddCopy);
             this.ChangeableCoursesUpdate();//更新可调整课程的列表
-            //alert(ChangeableCourses_);
-            let res = TopSort(CourseAddCopy);
-            let cnt = 0;
-            course_result.length = 0;
-            for (let i = 0; i < res.semester_count.length; i++) {
-                course_result.push(res.result.slice(cnt, cnt + res.semester_count[i]));
-                cnt += res.semester_count[i];
-            }
+            //alert(this.hourRestrict);
 
-            for (let i = res.semester_count.length; i < 8; i++) course_result[i] = [];
+            res = TopSort(CourseAddCopy, this.hourRestrict, this.restrictedHour, this.creditRestrict, this.restrictedCredit);
+            // let cnt = 0;
+            // course_result.length = 0;
+            // for (let i = 0; i < res.semester_count.length; i++) {
+            //     course_result.push(res.result.slice(cnt, cnt + res.semester_count[i]));
+            //     cnt += res.semester_count[i];
+            // }
+            if (res.isHourRestricted == 0) alert("没有课程排布满足该学时限定，请重新设置后再次排课！");
+            if (res.isCreditRestricted == 0) alert("没有课程排布满足该学分限定，请重新设置后再次排课！");
+            // for (let i = res.semester_count.length; i < 8; i++) course_result[i] = [];
             this.updateData();//更新结果表格中显示的数据
-            alert('排课程序已运行完成！');
+            //alert('排课程序已运行完成！');
 
         },
         addCourse() {

@@ -11,7 +11,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/homepage/">主页</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="/data/">课程数据录入</a>
                     </li>
                     <li class="nav-item">
@@ -19,7 +19,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/test/">测试</a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>

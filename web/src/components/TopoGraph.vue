@@ -74,7 +74,112 @@ export default {
         courses: function updatGraphdata() {//更新节点信息并重新渲染表格
             //alert(this.courses[0][0]);
             //将点和边的信息清空
-            this.chartData.series[0].data = [];
+            this.chartData.series[0].data = [
+                {
+                    name: "大一上学期",
+                    x: 100,
+                    y: 30,
+                    symbol: 'arrow',
+                    itemStyle: {
+                        color: '#4fc172', // 设置节点颜色为橙色
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        shadowBlur: 5
+                    },
+                    symbolRotate: 180,
+
+                },
+                {
+                    name: "大一下学期",
+                    x: 350,
+                    y: 30,
+                    symbol: 'arrow',
+                    itemStyle: {
+                        color: '#4fc172', // 设置节点颜色为橙色
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        shadowBlur: 5
+                    },
+                    symbolRotate: 180,
+
+                },
+                {
+                    name: "大二上学期",
+                    x: 600,
+                    y: 30,
+                    symbol: 'arrow',
+                    itemStyle: {
+                        color: '#4fc172', // 设置节点颜色为橙色
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        shadowBlur: 5
+                    },
+                    symbolRotate: 180,
+
+                },
+                {
+                    name: "大二下学期",
+                    x: 850,
+                    y: 30,
+                    symbol: 'arrow',
+                    itemStyle: {
+                        color: '#4fc172', // 设置节点颜色为橙色
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        shadowBlur: 5
+                    },
+                    symbolRotate: 180,
+
+                },
+                {
+                    name: "大三上学期",
+                    x: 1100,
+                    y: 30,
+                    symbol: 'arrow',
+                    itemStyle: {
+                        color: '#4fc172', // 设置节点颜色为橙色
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        shadowBlur: 5
+                    },
+                    symbolRotate: 180,
+
+                },
+                {
+                    name: "大三下学期",
+                    x: 1350,
+                    y: 30,
+                    symbol: 'arrow',
+                    itemStyle: {
+                        color: '#4fc172', // 设置节点颜色为橙色
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        shadowBlur: 5
+                    },
+                    symbolRotate: 180,
+
+                },
+                {
+                    name: "大四上学期",
+                    x: 1600,
+                    y: 30,
+                    symbol: 'arrow',
+                    itemStyle: {
+                        color: '#4fc172', // 设置节点颜色为橙色
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        shadowBlur: 5
+                    },
+                    symbolRotate: 180,
+
+                },
+                {
+                    name: "大四下学期",
+                    x: 1850,
+                    y: 30,
+                    symbol: 'arrow',
+                    itemStyle: {
+                        color: '#4fc172', // 设置节点颜色为橙色
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        shadowBlur: 5
+                    },
+                    symbolRotate: 180,
+
+                },
+            ];
             this.chartData.series[0].links = [];
             let coursesCopy = deepCopy(this.courses);
             for (let i = 0; i < 8; i++) {//添加节点信息
@@ -83,6 +188,10 @@ export default {
                         name: coursesCopy[i][j],
                         x: 100 + i * 250,
                         y: 100 + j * 100,
+                        itemStyle: {
+                            shadowColor: 'rgba(0, 0, 0, 0.5)',
+                            shadowBlur: 5
+                        },
                     }
                     this.chartData.series[0].data.push(newNode);
                 }
@@ -100,7 +209,7 @@ export default {
                                     source: start,
                                     target: this.courseAdd[k].name,
                                     lineStyle: {
-                                        curveness: 0.3
+                                        curveness: -0.3
                                     },
                                 }
                                 this.chartData.series[0].links.push(newEdge);//添加边

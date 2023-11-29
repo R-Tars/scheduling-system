@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DataInputView from '../views/DataInput/DataInputView'
-import HomePageView from '../views/HomePage/HomePageView'
+//import HomePageView from '../views/HomePage/HomePageView'
 import ScheduledView from '../views/Scheduled/ScheduledView'
 import TestPageView from '../views/TestPage/TestPageView'
 
@@ -29,7 +29,7 @@ const routes = [
   {
     path: "/homepage/",
     name: "HomePageIndex",
-    component: HomePageView,
+    component: TestPageView,
   },
 ]
 

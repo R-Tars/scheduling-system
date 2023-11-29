@@ -6,6 +6,8 @@
         </CourseTable>
 
         <div class="title">
+            手动调课：
+            <br>
             可往后调整的课程有：
             <span v-if="ChangeableCourses.length > 0">{{ ChangeableCourses.join(', ') }}</span>
             <span v-else>无</span>
